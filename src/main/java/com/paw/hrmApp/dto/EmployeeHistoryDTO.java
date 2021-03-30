@@ -11,6 +11,5 @@ public class EmployeeHistoryDTO {
     private Date startDate;
     private Date endDate;
     private String jobName;
-    private Long departmentId;
     private String departmentName;
 }

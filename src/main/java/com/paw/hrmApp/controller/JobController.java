@@ -2,6 +2,7 @@ package com.paw.hrmApp.controller;
 
 import com.paw.hrmApp.configuration.SpringFoxConfig;
 import com.paw.hrmApp.model.JobEntity;
+import com.paw.hrmApp.service.EmployeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -15,6 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Api(tags = { SpringFoxConfig.job })
 public class JobController {
+    private final EmployeeService employeeService;
     @ApiOperation(value = "Returns list of jobs")
     @GetMapping("/jobs")
     private JobEntity getJobs() {
@@ -24,7 +26,7 @@ public class JobController {
 
     @ApiOperation(value = "Returns specific job details")
     @GetMapping("/jobs/{id}")
-    private JobEntity getSpecificJob(@ApiParam(value = "Id of job", example = "1") @PathVariable Long id) {
+    private JobEntity getSpecificJob(@ApiParam(value = "Id of job", example = "1", required = true) @PathVariable Long id) {
         JobEntity jobEntity = new JobEntity();
         jobEntity.setJobId(id);
         return jobEntity;
@@ -39,12 +41,12 @@ public class JobController {
     @ApiOperation(value = "Creates new job")
     @PostMapping("/jobs")
     private void createJob() {
-
+        employeeService.saveJob();
     }
 
     @ApiOperation(value = "Deletes specific job")
-    @DeleteMapping("/jobs")
-    private void deleteJob(@ApiParam(value = "Id of job", example = "1") @PathVariable Long id) {
+    @DeleteMapping("/jobs/{id}")
+    private void deleteJob(@ApiParam(value = "Id of job", example = "1", required = true) @PathVariable Long id) {
 
     }
 }

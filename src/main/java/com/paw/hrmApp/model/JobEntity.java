@@ -3,20 +3,18 @@ package com.paw.hrmApp.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Setter
 @Getter
+@Table(name = "job")
 public class JobEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long jobId;
 
     private String jobName;
-    private int minSalary;
-    private int maxSalary;
+    private Double minSalary;
+    private Double maxSalary;
 }
