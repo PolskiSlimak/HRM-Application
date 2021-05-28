@@ -1,10 +1,10 @@
 package com.paw.hrmApp.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
+@Data
+@Builder
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class ManagerDTO {
     private Long managerId;
     private String firstName;

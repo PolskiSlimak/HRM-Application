@@ -9,7 +9,9 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,15 +22,16 @@ public class LocationsController {
 
     @ApiOperation(value = "Returns all location")
     @GetMapping("/locations")
-    private LocationDTO getLocations() {
-        LocationDTO locationDTO = new LocationDTO();
+    private List<LocationDTO> getLocations() {
+        List<LocationDTO> locationDTO = new ArrayList<>();
+        locationDTO.add(LocationDTO.builder().build());
         return locationDTO;
     }
 
     @ApiOperation(value = "Returns data from specific location")
     @GetMapping("/locations/{id}")
     private LocationDTO getSpecificLocations(@ApiParam(value = "Id of location", example = "1", required = true) @PathVariable Long id) {
-        LocationDTO locationDTO = new LocationDTO();
+        LocationDTO locationDTO = LocationDTO.builder().build();
         locationDTO.setLocationId(id);
         return locationDTO;
     }
@@ -42,7 +45,7 @@ public class LocationsController {
     @ApiOperation(value = "Creates location")
     @PostMapping("/locations")
     private void createLocation() {
-        employeeService.saveLocation();
+//        employeeService.saveLocation();
     }
 
     @ApiOperation(value = "Deletes specific location")

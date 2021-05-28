@@ -1,11 +1,12 @@
 package com.paw.hrmApp.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
-@Setter
-@Getter
+
+@Data
+@Builder
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class EmployeeHistoryDTO {
     private Long employeeId;
     private Date startDate;

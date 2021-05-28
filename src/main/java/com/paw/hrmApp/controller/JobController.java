@@ -9,7 +9,9 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -17,10 +19,12 @@ import java.util.Map;
 @Api(tags = { SpringFoxConfig.job })
 public class JobController {
     private final EmployeeService employeeService;
+
     @ApiOperation(value = "Returns list of jobs")
     @GetMapping("/jobs")
-    private JobEntity getJobs() {
-        JobEntity jobEntity = new JobEntity();
+    private List<JobEntity> getJobs() {
+        List<JobEntity> jobEntity = new ArrayList<>();
+        jobEntity.add(new JobEntity());
         return jobEntity;
     }
 
@@ -41,7 +45,7 @@ public class JobController {
     @ApiOperation(value = "Creates new job")
     @PostMapping("/jobs")
     private void createJob() {
-        employeeService.saveJob();
+//        employeeService.saveJob();
     }
 
     @ApiOperation(value = "Deletes specific job")

@@ -7,7 +7,9 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -15,17 +17,19 @@ import java.util.Map;
 @Api(tags = { SpringFoxConfig.department })
 public class DepartmentController {
     private final EmployeeService employeeService;
+
     @ApiOperation(value = "Returns list of all departments")
     @GetMapping("/departments")
-    private DepartmentDTO getDepartment() {
-        DepartmentDTO departmentDTO = new DepartmentDTO();
+    private List<DepartmentDTO> getDepartment() {
+        List<DepartmentDTO> departmentDTO = new ArrayList<>();
+        departmentDTO.add(DepartmentDTO.builder().build());
         return departmentDTO;
     }
 
     @ApiOperation(value = "Returns specific department")
     @GetMapping("/departments/{id}")
     private DepartmentDTO getSpecificDepartment(@ApiParam(value = "Id of department", example = "1", required = true) @PathVariable Long id) {
-        DepartmentDTO departmentDTO = new DepartmentDTO();
+        DepartmentDTO departmentDTO = DepartmentDTO.builder().build();
         departmentDTO.setDepartmentId(id);
         return departmentDTO;
     }
@@ -39,7 +43,7 @@ public class DepartmentController {
     @ApiOperation(value = "Creates specific department")
     @PostMapping("/departments")
     private void createDepartment() {
-        employeeService.saveDepartment();
+//        employeeService.saveDepartment();
     }
 
     @ApiOperation(value = "Delete specific department")

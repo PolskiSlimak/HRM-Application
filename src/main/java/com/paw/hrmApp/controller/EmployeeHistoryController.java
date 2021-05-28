@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,15 +22,16 @@ import java.util.Map;
 public class EmployeeHistoryController {
     @ApiOperation(value = "Returns list of all archived employees")
     @GetMapping("/employee-history")
-    private EmployeeHistoryDTO getEmployeeHistory() {
-        EmployeeHistoryDTO employeeHistoryDTO = new EmployeeHistoryDTO();
+    private List<EmployeeHistoryDTO> getEmployeeHistory() {
+        List<EmployeeHistoryDTO> employeeHistoryDTO = new ArrayList<>();
+        employeeHistoryDTO.add(EmployeeHistoryDTO.builder().build());
         return employeeHistoryDTO;
     }
 
     @ApiOperation(value = "Returns specific archived employee")
     @GetMapping("/employee-history/{id}")
     private EmployeeHistoryDTO getSpecificEmployeeHistory(@ApiParam(value = "Id of archived employee", example = "1", required = true) @PathVariable Long id) {
-        EmployeeHistoryDTO employeeHistoryDTO = new EmployeeHistoryDTO();
+        EmployeeHistoryDTO employeeHistoryDTO = EmployeeHistoryDTO.builder().build();
         employeeHistoryDTO.setEmployeeId(id);
         return employeeHistoryDTO;
     }
