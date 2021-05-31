@@ -9,14 +9,10 @@ import com.paw.hrmApp.model.EmployeeHistoryEntity;
 import com.paw.hrmApp.model.JobEntity;
 import com.paw.hrmApp.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private final LocationRepository locationRepository;
     private final JobRepository jobRepository;
     private final DepartmentRepository departmentRepository;
     private final EmployeeHistoryRepository employeeHistoryRepository;
@@ -58,15 +53,12 @@ public class EmployeeService {
         employeeRepository.save(employeeEntity);
     }
 
-    public EmployeeStatsDTO statistics(String date) throws ParseException {
+    public EmployeeStatsDTO getStatistics(String date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         Date dateFrom = formatter.parse(date);
         List<EmployeeEntity> employeeEntityList = employeeRepository.findEmployeesCount(dateFrom);
         Double averageSalary = getSalary(employeeEntityList);
-        return EmployeeStatsDTO.builder()
-                .employeeCount(employeeEntityList.size())
-                .averageSalary(averageSalary)
-                .build();
+        return EmployeeMapper.mapToStatsDTO(employeeEntityList.size(), averageSalary);
     }
 
     private List<EmployeeDTO> mapToDTOList(List<EmployeeEntity> employeeEntityList) {

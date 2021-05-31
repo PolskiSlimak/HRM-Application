@@ -3,7 +3,6 @@ package com.paw.hrmApp.controller;
 import com.paw.hrmApp.configuration.SpringFoxConfig;
 import com.paw.hrmApp.dto.EmployeeDTO;
 import com.paw.hrmApp.dto.EmployeeStatsDTO;
-import com.paw.hrmApp.model.EmployeeEntity;
 import com.paw.hrmApp.service.EmployeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,12 +10,8 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,7 +34,7 @@ public class EmployeeController {
     @ApiOperation(value = "Returns employment statistics")
     @GetMapping("/employees/statistics/{date}")
     private EmployeeStatsDTO getStatistics(@ApiParam(value = "Date from which statistics should be made", example = "30-03-2021", required = true) @PathVariable String date) throws ParseException {
-        return employeeService.statistics(date);
+        return employeeService.getStatistics(date);
     }
 
     @ApiOperation(value = "Delete specific employee")
@@ -50,7 +45,7 @@ public class EmployeeController {
 
     @ApiOperation(value = "Creates specific employee")
     @PostMapping("/employee")
-    private void createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+    private void createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         employeeService.saveEmployee(employeeDTO);
     }
 }

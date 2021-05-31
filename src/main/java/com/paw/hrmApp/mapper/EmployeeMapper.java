@@ -1,6 +1,7 @@
 package com.paw.hrmApp.mapper;
 
 import com.paw.hrmApp.dto.EmployeeDTO;
+import com.paw.hrmApp.dto.EmployeeStatsDTO;
 import com.paw.hrmApp.model.EmployeeEntity;
 import com.paw.hrmApp.model.EmployeeHistoryEntity;
 
@@ -37,5 +38,12 @@ public class EmployeeMapper {
         employeeHistoryEntity.setJobEntity(employeeEntity.getJobEntity());
         employeeHistoryEntity.setEmployeeEntity(employeeEntity);
         return employeeHistoryEntity;
+    }
+
+    public static EmployeeStatsDTO mapToStatsDTO(Integer size, Double salary) {
+        return EmployeeStatsDTO.builder()
+                .employeeCount(size)
+                .averageSalary(salary)
+                .build();
     }
 }
