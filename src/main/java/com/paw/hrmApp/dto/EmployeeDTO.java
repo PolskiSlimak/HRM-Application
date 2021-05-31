@@ -1,8 +1,9 @@
 package com.paw.hrmApp.dto;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -10,7 +11,8 @@ import java.util.Date;
 public class EmployeeDTO {
     private String firstName;
     private String lastName;
-    private Date hireDate;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate hireDate;
     private String email;
     private String phoneNumber;
     private Double salary;

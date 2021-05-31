@@ -1,21 +1,29 @@
 package com.paw.hrmApp.mapper;
 
 import com.paw.hrmApp.dto.EmployeeDTO;
+import com.paw.hrmApp.dto.EmployeeHistoryDTO;
 import com.paw.hrmApp.dto.EmployeeStatsDTO;
 import com.paw.hrmApp.model.EmployeeEntity;
 import com.paw.hrmApp.model.EmployeeHistoryEntity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class EmployeeMapper {
     public static EmployeeDTO mapToEmployeeDTO(EmployeeEntity employeeEntity) {
+        Long id = null;
+        if (employeeEntity.getManagerEntity() != null)
+            id = employeeEntity.getManagerEntity().getEmployeeId();
         return EmployeeDTO.builder()
                 .firstName(employeeEntity.getFirstName())
                 .lastName(employeeEntity.getLastName())
                 .hireDate(employeeEntity.getHireDate())
+                .email(employeeEntity.getEmail())
+                .phoneNumber(employeeEntity.getPhoneNumber())
+                .salary(employeeEntity.getSalary())
                 .departmentName(employeeEntity.getDepartmentEntity().getDepartmentName())
                 .jobName(employeeEntity.getJobEntity().getJobName())
-                .managerId(employeeEntity.getManagerEntity().getEmployeeId())
+                .managerId(id)
                 .build();
     }
 
@@ -33,7 +41,7 @@ public class EmployeeMapper {
     public static EmployeeHistoryEntity mapToEmployeeHistoryEntity(EmployeeEntity employeeEntity) {
         EmployeeHistoryEntity employeeHistoryEntity = new EmployeeHistoryEntity();
         employeeHistoryEntity.setStartDate(employeeEntity.getHireDate());
-        employeeHistoryEntity.setEndDate(new Date());
+        employeeHistoryEntity.setEndDate(LocalDate.now());
         employeeHistoryEntity.setDepartmentEntity(employeeEntity.getDepartmentEntity());
         employeeHistoryEntity.setJobEntity(employeeEntity.getJobEntity());
         employeeHistoryEntity.setEmployeeEntity(employeeEntity);
@@ -44,6 +52,15 @@ public class EmployeeMapper {
         return EmployeeStatsDTO.builder()
                 .employeeCount(size)
                 .averageSalary(salary)
+                .build();
+    }
+
+    public static EmployeeHistoryDTO mapToEmployeeHistoryDTO(EmployeeHistoryEntity employeeEntity) {
+        return EmployeeHistoryDTO.builder()
+                .startDate(employeeEntity.getStartDate())
+                .endDate(employeeEntity.getEndDate())
+                .jobName(employeeEntity.getJobEntity().getJobName())
+                .departmentName(employeeEntity.getDepartmentEntity().getDepartmentName())
                 .build();
     }
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Setter
@@ -15,8 +15,8 @@ public class EmployeeHistoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employeeHistoryId;
 
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private DepartmentEntity departmentEntity;

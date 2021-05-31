@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Setter
@@ -17,7 +17,7 @@ public class EmployeeEntity {
 
     private String firstName;
     private String lastName;
-    private Date hireDate;
+    private LocalDate hireDate;
     private String email;
     private String phoneNumber;
     private Double salary;
