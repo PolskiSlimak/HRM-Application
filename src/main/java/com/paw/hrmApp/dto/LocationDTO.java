@@ -6,7 +6,8 @@ import lombok.*;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class LocationDTO {
-    private Long locationId;
-    private String city;
     private String countryName;
+    private String cityName;
+    private String postalCode;
+    private String streetAddress;
 }
