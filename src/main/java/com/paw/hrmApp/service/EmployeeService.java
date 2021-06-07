@@ -1,5 +1,6 @@
 package com.paw.hrmApp.service;
 
+import com.paw.hrmApp.dto.EmployeeCreateDTO;
 import com.paw.hrmApp.dto.EmployeeDTO;
 import com.paw.hrmApp.dto.EmployeeStatsDTO;
 import com.paw.hrmApp.mapper.EmployeeMapper;
@@ -42,14 +43,17 @@ public class EmployeeService {
         employeeRepository.delete(employeeEntity);
     }
 
-    public void saveEmployee(EmployeeDTO employeeDTO) {
-        EmployeeEntity employeeEntity = EmployeeMapper.mapSimpleTypesToEmployeeEntity(employeeDTO);
-        EmployeeEntity managerEntity = employeeRepository.findById(employeeDTO.getManagerId()).get();
-        employeeEntity.setManagerEntity(managerEntity);
-        JobEntity jobEntity = jobRepository.findByJobName(employeeDTO.getJobName()).get();
-        employeeEntity.setJobEntity(jobEntity);
-        DepartmentEntity departmentEntity = departmentRepository.findByDepartmentName(employeeDTO.getDepartmentName()).get();
-        employeeEntity.setDepartmentEntity(departmentEntity);
+    public void editEmployee(EmployeeDTO employeeDTO) {
+        Long id = employeeDTO.getEmployeeId();
+        EmployeeEntity employeeEntity = employeeRepository.findById(id).get();
+        EmployeeMapper.overrideEmployeeEntity(employeeEntity, employeeDTO);
+        setDetailedInfo(employeeEntity, employeeDTO.getManagerId(), employeeDTO.getJobName(), employeeDTO.getDepartmentName());
+        employeeRepository.save(employeeEntity);
+    }
+
+    public void createEmployee(EmployeeCreateDTO employeeCreateDTO) {
+        EmployeeEntity employeeEntity = EmployeeMapper.mapSimpleTypesToEmployeeEntity(employeeCreateDTO);
+        setDetailedInfo(employeeEntity, employeeCreateDTO.getManagerId(), employeeCreateDTO.getJobName(), employeeCreateDTO.getDepartmentName());
         employeeRepository.save(employeeEntity);
     }
 
@@ -81,46 +85,12 @@ public class EmployeeService {
         return salary/employeeEntityList.size();
     }
 
-//    public void saveEmployee() {
-//        EmployeeEntity employeeEntity = new EmployeeEntity();
-//        employeeEntity.setFirstName("Damian");
-//        employeeEntity.setLastName("Nowak");
-//        employeeEntity.setHireDate(new Date());
-//        employeeEntity.setSalary(10000.00);
-//        employeeEntity.setPhoneNumber("234567543");
-//        employeeEntity.setEmail("damian.nowak@gmail.com");
-//        employeeEntity.setManagerEntity(employeeRepository.findById(1L).get());
-//        employeeEntity.setJobEntity(jobRepository.findById(1L).get());
-//        employeeEntity.setDepartmentEntity(departmentRepository.findById(1L).get());
-//
-//        employeeRepository.save(employeeEntity);
-//    }
-//
-//    public void saveLocation() {
-//        LocationEntity locationEntity = new LocationEntity();
-//        locationEntity.setCountryName("Poland");
-//        locationEntity.setCityName("Katowice");
-//        locationEntity.setPostalCode("40-000");
-//        locationEntity.setStreetAddress("Kwiatowa 50");
-//
-//        locationRepository.save(locationEntity);
-//    }
-//
-//    public void saveDepartment() {
-//        DepartmentEntity departmentEntity = new DepartmentEntity();
-//        departmentEntity.setDepartmentName("HR");
-//        departmentEntity.setManagerEntity(employeeRepository.findById(1L).get());
-//        departmentEntity.setLocationEntity(locationRepository.findById(1L).get());
-//
-//        departmentRepository.save(departmentEntity);
-//    }
-//
-//    public void saveJob() {
-//        JobEntity jobEntity = new JobEntity();
-//        jobEntity.setJobName("CEO");
-//        jobEntity.setMinSalary(10000.00);
-//        jobEntity.setMaxSalary(99999.00);
-//
-//        jobRepository.save(jobEntity);
-//    }
+    private void setDetailedInfo(EmployeeEntity employeeEntity, Long managerId, String jobName, String departmentName) {
+        EmployeeEntity managerEntity = employeeRepository.findById(managerId).get();
+        employeeEntity.setManagerEntity(managerEntity);
+        JobEntity jobEntity = jobRepository.findByJobName(jobName).get();
+        employeeEntity.setJobEntity(jobEntity);
+        DepartmentEntity departmentEntity = departmentRepository.findByDepartmentName(departmentName).get();
+        employeeEntity.setDepartmentEntity(departmentEntity);
+    }
 }

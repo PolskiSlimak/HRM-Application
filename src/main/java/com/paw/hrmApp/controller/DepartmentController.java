@@ -1,6 +1,7 @@
 package com.paw.hrmApp.controller;
 
 import com.paw.hrmApp.configuration.SpringFoxConfig;
+import com.paw.hrmApp.dto.DepartmentCreateDTO;
 import com.paw.hrmApp.dto.DepartmentDTO;
 import com.paw.hrmApp.dto.DepartmentStatsDTO;
 import com.paw.hrmApp.service.DepartmentService;
@@ -36,10 +37,16 @@ public class DepartmentController {
         return departmentService.getStatistics();
     }
 
-    @ApiOperation(value = "Creates specific department")
+    @ApiOperation(value = "Edit specific department")
     @PostMapping("/departments")
-    private void createDepartment(@RequestBody DepartmentDTO departmentDTO) {
-        departmentService.saveDepartment(departmentDTO);
+    private void editDepartment(@RequestBody DepartmentDTO departmentDTO) {
+        departmentService.editDepartment(departmentDTO);
+    }
+
+    @ApiOperation(value = "Creates department")
+    @PutMapping("/departments")
+    private void createDepartment(@RequestBody DepartmentCreateDTO departmentDTO) {
+        departmentService.createDepartment(departmentDTO);
     }
 
     @ApiOperation(value = "Delete specific department")

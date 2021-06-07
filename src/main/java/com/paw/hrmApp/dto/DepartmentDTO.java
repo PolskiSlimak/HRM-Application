@@ -6,6 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class DepartmentDTO {
+    private Long departmentId;
     private String departmentName;
     private Long managerId;
     private Long locationId;

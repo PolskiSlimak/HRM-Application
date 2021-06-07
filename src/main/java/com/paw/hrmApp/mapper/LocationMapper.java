@@ -11,6 +11,7 @@ import java.util.Map;
 public class LocationMapper {
     public static LocationDTO mapToLocationDTO(LocationEntity locationEntity) {
         return LocationDTO.builder()
+                .locationId(locationEntity.getLocationId())
                 .countryName(locationEntity.getCountryName())
                 .cityName(locationEntity.getCityName())
                 .postalCode(locationEntity.getPostalCode())

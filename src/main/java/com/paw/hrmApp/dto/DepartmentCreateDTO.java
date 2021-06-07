@@ -8,9 +8,8 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class JobDTO {
-    private Long jobId;
-    private String jobName;
-    private Double minSalary;
-    private Double maxSalary;
+public class DepartmentCreateDTO {
+    private String departmentName;
+    private Long managerId;
+    private Long locationId;
 }

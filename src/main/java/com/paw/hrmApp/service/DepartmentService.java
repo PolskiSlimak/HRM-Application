@@ -1,5 +1,6 @@
 package com.paw.hrmApp.service;
 
+import com.paw.hrmApp.dto.DepartmentCreateDTO;
 import com.paw.hrmApp.dto.DepartmentDTO;
 import com.paw.hrmApp.dto.DepartmentStatsDTO;
 import com.paw.hrmApp.mapper.DepartmentMapper;
@@ -33,10 +34,16 @@ public class DepartmentService {
         return DepartmentMapper.mapToDepartmentDTO(departmentEntity);
     }
 
-    public void saveDepartment(DepartmentDTO departmentDTO) {
-        EmployeeEntity managerEntity = employeeRepository.findById(departmentDTO.getManagerId()).get();
-        LocationEntity locationEntity = locationRepository.findById(departmentDTO.getLocationId()).get();
-        DepartmentEntity departmentEntity = DepartmentMapper.mapToDepartmentEntity(departmentDTO, managerEntity, locationEntity);
+    public void editDepartment(DepartmentDTO departmentDTO) {
+        Long id = departmentDTO.getDepartmentId();
+        DepartmentEntity departmentEntity = departmentRepository.findById(id).get();
+        setDetailedInfo(departmentEntity, departmentDTO.getDepartmentName(), departmentDTO.getManagerId(), departmentDTO.getLocationId());
+        departmentRepository.save(departmentEntity);
+    }
+
+    public void createDepartment(DepartmentCreateDTO departmentCreateDTO) {
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        setDetailedInfo(departmentEntity, departmentCreateDTO.getDepartmentName(), departmentCreateDTO.getManagerId(), departmentCreateDTO.getLocationId());
         departmentRepository.save(departmentEntity);
     }
 
@@ -56,5 +63,11 @@ public class DepartmentService {
             departmentsDTO.add(departmentDTO);
         }
         return departmentsDTO;
+    }
+
+    private void setDetailedInfo(DepartmentEntity departmentEntity, String name, Long managerId, Long locationId) {
+        EmployeeEntity managerEntity = employeeRepository.findById(managerId).get();
+        LocationEntity locationEntity = locationRepository.findById(locationId).get();
+        DepartmentMapper.mapToDepartmentEntity(departmentEntity, name, managerEntity, locationEntity);
     }
 }

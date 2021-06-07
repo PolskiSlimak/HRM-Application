@@ -13,18 +13,17 @@ import java.util.Map;
 public class DepartmentMapper {
     public static DepartmentDTO mapToDepartmentDTO(DepartmentEntity departmentEntity) {
         return DepartmentDTO.builder()
+                .departmentId(departmentEntity.getDepartmentId())
                 .departmentName(departmentEntity.getDepartmentName())
                 .managerId(departmentEntity.getManagerEntity().getEmployeeId())
                 .locationId(departmentEntity.getLocationEntity().getLocationId())
                 .build();
     }
 
-    public static DepartmentEntity mapToDepartmentEntity(DepartmentDTO departmentDTO, EmployeeEntity managerEntity, LocationEntity locationEntity) {
-        DepartmentEntity departmentEntity = new DepartmentEntity();
-        departmentEntity.setDepartmentName(departmentDTO.getDepartmentName());
+    public static void mapToDepartmentEntity(DepartmentEntity departmentEntity, String departmentName, EmployeeEntity managerEntity, LocationEntity locationEntity) {
+        departmentEntity.setDepartmentName(departmentName);
         departmentEntity.setManagerEntity(managerEntity);
         departmentEntity.setLocationEntity(locationEntity);
-        return departmentEntity;
     }
 
     public static DepartmentStatsDTO mapToStatsDTO(List<Map<String, Object>> stats) {

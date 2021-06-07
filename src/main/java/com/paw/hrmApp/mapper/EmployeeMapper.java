@@ -1,5 +1,6 @@
 package com.paw.hrmApp.mapper;
 
+import com.paw.hrmApp.dto.EmployeeCreateDTO;
 import com.paw.hrmApp.dto.EmployeeDTO;
 import com.paw.hrmApp.dto.EmployeeHistoryDTO;
 import com.paw.hrmApp.dto.EmployeeStatsDTO;
@@ -7,7 +8,6 @@ import com.paw.hrmApp.model.EmployeeEntity;
 import com.paw.hrmApp.model.EmployeeHistoryEntity;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class EmployeeMapper {
     public static EmployeeDTO mapToEmployeeDTO(EmployeeEntity employeeEntity) {
@@ -15,6 +15,7 @@ public class EmployeeMapper {
         if (employeeEntity.getManagerEntity() != null)
             id = employeeEntity.getManagerEntity().getEmployeeId();
         return EmployeeDTO.builder()
+                .employeeId(employeeEntity.getEmployeeId())
                 .firstName(employeeEntity.getFirstName())
                 .lastName(employeeEntity.getLastName())
                 .hireDate(employeeEntity.getHireDate())
@@ -27,7 +28,7 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public static EmployeeEntity mapSimpleTypesToEmployeeEntity(EmployeeDTO employeeDTO) {
+    public static EmployeeEntity mapSimpleTypesToEmployeeEntity(EmployeeCreateDTO employeeDTO) {
         EmployeeEntity employeeEntity = new EmployeeEntity();
         employeeEntity.setFirstName(employeeDTO.getFirstName());
         employeeEntity.setLastName(employeeDTO.getLastName());
@@ -57,10 +58,20 @@ public class EmployeeMapper {
 
     public static EmployeeHistoryDTO mapToEmployeeHistoryDTO(EmployeeHistoryEntity employeeEntity) {
         return EmployeeHistoryDTO.builder()
+                .employeeHistoryId(employeeEntity.getEmployeeHistoryId())
                 .startDate(employeeEntity.getStartDate())
                 .endDate(employeeEntity.getEndDate())
                 .jobName(employeeEntity.getJobEntity().getJobName())
                 .departmentName(employeeEntity.getDepartmentEntity().getDepartmentName())
                 .build();
+    }
+
+    public static void overrideEmployeeEntity(EmployeeEntity employeeEntity, EmployeeDTO employeeDTO) {
+        employeeEntity.setFirstName(employeeDTO.getFirstName());
+        employeeEntity.setLastName(employeeDTO.getLastName());
+        employeeEntity.setHireDate(employeeDTO.getHireDate());
+        employeeEntity.setEmail(employeeDTO.getEmail());
+        employeeEntity.setPhoneNumber(employeeDTO.getPhoneNumber());
+        employeeEntity.setSalary(employeeDTO.getSalary());
     }
 }

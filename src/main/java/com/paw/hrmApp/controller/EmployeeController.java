@@ -1,6 +1,7 @@
 package com.paw.hrmApp.controller;
 
 import com.paw.hrmApp.configuration.SpringFoxConfig;
+import com.paw.hrmApp.dto.EmployeeCreateDTO;
 import com.paw.hrmApp.dto.EmployeeDTO;
 import com.paw.hrmApp.dto.EmployeeStatsDTO;
 import com.paw.hrmApp.service.EmployeeService;
@@ -43,9 +44,15 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
     }
 
-    @ApiOperation(value = "Creates specific employee")
+    @ApiOperation(value = "Edit specific employee")
+    @PutMapping("/employee")
+    private void editEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        employeeService.editEmployee(employeeDTO);
+    }
+
+    @ApiOperation(value = "Create employee")
     @PostMapping("/employee")
-    private void createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        employeeService.saveEmployee(employeeDTO);
+    private void createEmployee(@RequestBody EmployeeCreateDTO employeeCreateDTO) {
+        employeeService.createEmployee(employeeCreateDTO);
     }
 }

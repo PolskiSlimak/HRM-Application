@@ -12,6 +12,7 @@ import java.util.Map;
 public class JobMapper {
     public static JobDTO mapToJobDTO(JobEntity jobEntity) {
         return JobDTO.builder()
+                .jobId(jobEntity.getJobId())
                 .jobName(jobEntity.getJobName())
                 .maxSalary(jobEntity.getMaxSalary())
                 .minSalary(jobEntity.getMinSalary())

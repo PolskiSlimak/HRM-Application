@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class EmployeeHistoryDTO {
+    private Long employeeHistoryId;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
