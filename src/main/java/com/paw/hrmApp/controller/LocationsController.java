@@ -1,6 +1,7 @@
 package com.paw.hrmApp.controller;
 
 import com.paw.hrmApp.configuration.SpringFoxConfig;
+import com.paw.hrmApp.dto.LocationCreateDTO;
 import com.paw.hrmApp.dto.LocationDTO;
 import com.paw.hrmApp.dto.LocationStatsDTO;
 import com.paw.hrmApp.service.LocationService;
@@ -36,10 +37,16 @@ public class LocationsController {
         return locationService.getStatistics();
     }
 
-    @ApiOperation(value = "Creates location")
+    @ApiOperation(value = "Edit location")
     @PostMapping("/locations")
-    private void createLocation(@RequestBody LocationDTO locationDTO) {
-        locationService.saveLocation(locationDTO);
+    private void editLocation(@RequestBody LocationDTO locationDTO) {
+        locationService.editLocation(locationDTO);
+    }
+
+    @ApiOperation(value = "Create location")
+    @PutMapping("/locations")
+    private void createLocation(@RequestBody LocationCreateDTO locationDTO) {
+        locationService.createLocation(locationDTO);
     }
 
     @ApiOperation(value = "Deletes specific location")

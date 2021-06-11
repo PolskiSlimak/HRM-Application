@@ -19,12 +19,10 @@ public class JobMapper {
                 .build();
     }
 
-    public static JobEntity mapToJobEntity(JobDTO jobDTO) {
-        JobEntity jobEntity = new JobEntity();
-        jobEntity.setJobName(jobDTO.getJobName());
-        jobEntity.setMinSalary(jobDTO.getMinSalary());
-        jobEntity.setMaxSalary(jobDTO.getMaxSalary());
-        return jobEntity;
+    public static void overrideJobEntity(JobEntity jobEntity, String jobName, Double minSalary, Double maxSalary) {
+        jobEntity.setJobName(jobName);
+        jobEntity.setMinSalary(minSalary);
+        jobEntity.setMaxSalary(maxSalary);
     }
 
     public static List<JobStatsDTO> mapToJobStatsDTOList(List<Map<String, Object>> stats) {

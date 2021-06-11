@@ -1,5 +1,6 @@
 package com.paw.hrmApp.service;
 
+import com.paw.hrmApp.dto.JobCreateDTO;
 import com.paw.hrmApp.dto.JobDTO;
 import com.paw.hrmApp.dto.JobStatsDTO;
 import com.paw.hrmApp.mapper.JobMapper;
@@ -27,8 +28,16 @@ public class JobService {
         return JobMapper.mapToJobDTO(jobEntity);
     }
 
-    public void saveJob(JobDTO jobDTO) {
-        JobEntity jobEntity = JobMapper.mapToJobEntity(jobDTO);
+    public void editJob(JobDTO jobDTO) {
+        Long id = jobDTO.getJobId();
+        JobEntity jobEntity = jobRepository.findById(id).get();
+        JobMapper.overrideJobEntity(jobEntity, jobDTO.getJobName(), jobDTO.getMinSalary(), jobDTO.getMaxSalary());
+        jobRepository.save(jobEntity);
+    }
+
+    public void createJob(JobCreateDTO jobCreateDTO) {
+        JobEntity jobEntity = new JobEntity();
+        JobMapper.overrideJobEntity(jobEntity, jobCreateDTO.getJobName(), jobCreateDTO.getMinSalary(), jobCreateDTO.getMaxSalary());
         jobRepository.save(jobEntity);
     }
 

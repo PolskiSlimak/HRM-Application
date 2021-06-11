@@ -1,6 +1,7 @@
 package com.paw.hrmApp.controller;
 
 import com.paw.hrmApp.configuration.SpringFoxConfig;
+import com.paw.hrmApp.dto.JobCreateDTO;
 import com.paw.hrmApp.dto.JobDTO;
 import com.paw.hrmApp.dto.JobStatsDTO;
 import com.paw.hrmApp.service.JobService;
@@ -36,10 +37,16 @@ public class JobController {
         return jobService.getStatistics();
     }
 
-    @ApiOperation(value = "Creates new job")
+    @ApiOperation(value = "Edit particular job")
     @PostMapping("/jobs")
-    private void createJob(@RequestBody JobDTO jobDTO) {
-        jobService.saveJob(jobDTO);
+    private void editJob(@RequestBody JobDTO jobDTO) {
+        jobService.editJob(jobDTO);
+    }
+
+    @ApiOperation(value = "Create new job")
+    @PutMapping("/jobs")
+    private void createJob(@RequestBody JobCreateDTO jobDTO) {
+        jobService.createJob(jobDTO);
     }
 
     @ApiOperation(value = "Deletes specific job")

@@ -5,6 +5,7 @@ import com.paw.hrmApp.dto.LocationStatsDTO;
 import com.paw.hrmApp.model.LocationEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,14 +20,11 @@ public class LocationMapper {
                 .build();
     }
 
-    public static LocationEntity mapToLocationEntity(LocationDTO locationDTO) {
-        LocationEntity locationEntity = new LocationEntity();
-        locationEntity.setCountryName(locationDTO.getCountryName());
-        locationEntity.setStreetAddress(locationDTO.getStreetAddress());
-        locationEntity.setPostalCode(locationDTO.getPostalCode());
-        locationEntity.setStreetAddress(locationDTO.getStreetAddress());
-        locationEntity.setCityName(locationDTO.getCityName());
-        return locationEntity;
+    public static void overrideLocationEntity(LocationEntity locationEntity, HashMap<String, String> details) {
+        locationEntity.setCountryName(details.get("countryName"));
+        locationEntity.setStreetAddress(details.get("streetAddress"));
+        locationEntity.setPostalCode(details.get("postalCode"));
+        locationEntity.setCityName(details.get("cityName"));
     }
 
     public static List<LocationStatsDTO> mapToLocationStatsDTOList(List<Map<String, Object>> stats) {
