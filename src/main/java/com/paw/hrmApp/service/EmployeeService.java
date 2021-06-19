@@ -1,8 +1,10 @@
 package com.paw.hrmApp.service;
 
+import com.paw.hrmApp.dao.FinderDAO;
 import com.paw.hrmApp.dto.EmployeeCreateDTO;
 import com.paw.hrmApp.dto.EmployeeDTO;
 import com.paw.hrmApp.dto.EmployeeStatsDTO;
+import com.paw.hrmApp.exception.ResourceNotFoundException;
 import com.paw.hrmApp.mapper.EmployeeMapper;
 import com.paw.hrmApp.model.DepartmentEntity;
 import com.paw.hrmApp.model.EmployeeEntity;
@@ -22,9 +24,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private final JobRepository jobRepository;
-    private final DepartmentRepository departmentRepository;
     private final EmployeeHistoryRepository employeeHistoryRepository;
+    private final FinderDAO finderDAO;
 
     public List<EmployeeDTO> getEmployees() {
         List<EmployeeEntity> employeeEntityList =  employeeRepository.findAll();
@@ -32,12 +33,12 @@ public class EmployeeService {
     }
 
     public EmployeeDTO getParticularEmployee(Long id) {
-        EmployeeEntity employeeEntity = employeeRepository.findById(id).get();
+        EmployeeEntity employeeEntity = finderDAO.getEmployeeEntity(id);
         return EmployeeMapper.mapToEmployeeDTO(employeeEntity);
     }
 
     public void deleteEmployee(Long id) {
-        EmployeeEntity employeeEntity = employeeRepository.findById(id).get();
+        EmployeeEntity employeeEntity = finderDAO.getEmployeeEntity(id);
         EmployeeHistoryEntity employeeHistoryEntity = EmployeeMapper.mapToEmployeeHistoryEntity(employeeEntity);
         employeeHistoryRepository.save(employeeHistoryEntity);
         employeeRepository.delete(employeeEntity);
@@ -45,7 +46,7 @@ public class EmployeeService {
 
     public void editEmployee(EmployeeDTO employeeDTO) {
         Long id = employeeDTO.getEmployeeId();
-        EmployeeEntity employeeEntity = employeeRepository.findById(id).get();
+        EmployeeEntity employeeEntity = finderDAO.getEmployeeEntity(id);
         EmployeeMapper.overrideEmployeeEntity(employeeEntity, employeeDTO);
         setDetailedInfo(employeeEntity, employeeDTO.getManagerId(), employeeDTO.getJobName(), employeeDTO.getDepartmentName());
         employeeRepository.save(employeeEntity);
@@ -59,7 +60,12 @@ public class EmployeeService {
 
     public EmployeeStatsDTO getStatistics(String date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date dateFrom = formatter.parse(date);
+        Date dateFrom;
+        try {
+            dateFrom = formatter.parse(date);
+        } catch (ParseException e) {
+            throw new ResourceNotFoundException(e.getMessage());
+        }
         List<EmployeeEntity> employeeEntityList = employeeRepository.findEmployeesCount(dateFrom);
         Double averageSalary = getSalary(employeeEntityList);
         return EmployeeMapper.mapToStatsDTO(employeeEntityList.size(), averageSalary);
@@ -86,11 +92,31 @@ public class EmployeeService {
     }
 
     private void setDetailedInfo(EmployeeEntity employeeEntity, Long managerId, String jobName, String departmentName) {
-        EmployeeEntity managerEntity = employeeRepository.findById(managerId).get();
+        List<String> errors = new ArrayList<>();
+        EmployeeEntity managerEntity = new EmployeeEntity();
+        JobEntity jobEntity = new JobEntity();
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        try {
+            managerEntity = finderDAO.getEmployeeEntity(managerId);
+        } catch (ResourceNotFoundException e) {
+            errors.add(e.getMessage());
+        }
+        try {
+            jobEntity = finderDAO.getJobEntityByName(jobName);
+        } catch (ResourceNotFoundException e) {
+            errors.add(e.getMessage());
+        }
+        try {
+            departmentEntity = finderDAO.getDepartmentEntityByName(departmentName);
+        } catch (ResourceNotFoundException e){
+            errors.add(e.getMessage());
+        }
+
+        if (!errors.isEmpty())
+            throw new ResourceNotFoundException(errors);
+
         employeeEntity.setManagerEntity(managerEntity);
-        JobEntity jobEntity = jobRepository.findByJobName(jobName).get();
         employeeEntity.setJobEntity(jobEntity);
-        DepartmentEntity departmentEntity = departmentRepository.findByDepartmentName(departmentName).get();
         employeeEntity.setDepartmentEntity(departmentEntity);
     }
 }

@@ -1,5 +1,6 @@
 package com.paw.hrmApp.service;
 
+import com.paw.hrmApp.dao.FinderDAO;
 import com.paw.hrmApp.dto.JobCreateDTO;
 import com.paw.hrmApp.dto.JobDTO;
 import com.paw.hrmApp.dto.JobStatsDTO;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JobService {
     private final JobRepository jobRepository;
+    private final FinderDAO finderDAO;
 
     public List<JobDTO> getJobs() {
         List<JobEntity> jobEntityList = jobRepository.findAll();
@@ -24,13 +26,13 @@ public class JobService {
     }
 
     public JobDTO getParticularJob(Long id) {
-        JobEntity jobEntity = jobRepository.findById(id).get();
+        JobEntity jobEntity = finderDAO.getJobEntity(id);
         return JobMapper.mapToJobDTO(jobEntity);
     }
 
     public void editJob(JobDTO jobDTO) {
         Long id = jobDTO.getJobId();
-        JobEntity jobEntity = jobRepository.findById(id).get();
+        JobEntity jobEntity = finderDAO.getJobEntity(id);
         JobMapper.overrideJobEntity(jobEntity, jobDTO.getJobName(), jobDTO.getMinSalary(), jobDTO.getMaxSalary());
         jobRepository.save(jobEntity);
     }
@@ -42,7 +44,8 @@ public class JobService {
     }
 
     public void deleteJob(Long id) {
-        jobRepository.deleteById(id);
+        JobEntity jobEntity = finderDAO.getJobEntity(id);
+        jobRepository.delete(jobEntity);
     }
 
     public List<JobStatsDTO> getStatistics() {

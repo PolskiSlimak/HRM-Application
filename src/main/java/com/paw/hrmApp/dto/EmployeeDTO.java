@@ -12,7 +12,7 @@ public class EmployeeDTO {
     private Long employeeId;
     private String firstName;
     private String lastName;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE)
     private LocalDate hireDate;
     private String email;
     private String phoneNumber;

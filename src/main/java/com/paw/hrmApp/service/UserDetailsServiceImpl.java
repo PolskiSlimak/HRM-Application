@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserEntity checkAndSetUserEntity(String userName) {
-        UserEntity user = userRepository.findByUserName(userName).orElseThrow(() -> new UsernameNotFoundException("Couldn't find user"));;
+        UserEntity user = userRepository.findByUserName(userName).orElseThrow(() -> new UsernameNotFoundException("Cannot find user"));;
         if (user == null) {
             throw new UsernameNotFoundException(userName);
         }

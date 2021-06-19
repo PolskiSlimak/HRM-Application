@@ -2,6 +2,7 @@ package com.paw.hrmApp.service;
 
 import com.paw.hrmApp.dto.JWTokenDTO;
 import com.paw.hrmApp.dto.UserDTO;
+import com.paw.hrmApp.exception.ResourceNotFoundException;
 import com.paw.hrmApp.model.RoleEntity;
 import com.paw.hrmApp.model.UserDetailsImpl;
 import com.paw.hrmApp.model.UserEntity;
@@ -26,20 +27,20 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JWTUtils jwtUtils;
+    private final JWTService jwtService;
 
     public JWTokenDTO authenticateAndGetToken(UserDTO userDTO) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 userDTO.getUsername(), userDTO.getPassword()
         ));
 
-        return new JWTokenDTO(jwtUtils.generateToken(authentication));
+        return new JWTokenDTO(jwtService.generateToken(authentication));
     }
 
     @Transactional
     public void addUser(UserDTO userDTO) {
         if (userRepository.existsByUserName(userDTO.getUsername()))
-            throw new RuntimeException("User already exist");
+            throw new ResourceNotFoundException("User already exist");
         Set<RoleEntity> roleSet = new HashSet<>();
         roleSet.add(roleRepository.findByRoleName("USER").orElseThrow());
         UserEntity user = new UserEntity();
@@ -56,6 +57,6 @@ public class UserService {
 
 
     public UserEntity getUserByUsername(String username) {
-        return userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Couldn't find user"));
+        return userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Cannot find user"));
     }
 }

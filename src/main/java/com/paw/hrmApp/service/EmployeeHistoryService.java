@@ -1,7 +1,9 @@
 package com.paw.hrmApp.service;
 
+import com.paw.hrmApp.dao.FinderDAO;
 import com.paw.hrmApp.dto.EmployeeHistoryDTO;
 import com.paw.hrmApp.dto.EmployeeHistoryStatsDTO;
+import com.paw.hrmApp.exception.ResourceNotFoundException;
 import com.paw.hrmApp.mapper.EmployeeMapper;
 import com.paw.hrmApp.model.EmployeeHistoryEntity;
 import com.paw.hrmApp.repository.EmployeeHistoryRepository;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeHistoryService {
     private final EmployeeHistoryRepository employeeHistoryRepository;
+    private final FinderDAO finderDAO;
 
     public List<EmployeeHistoryDTO> getEmployeeHistory() {
         List<EmployeeHistoryEntity> employeeHistoryEntityList = employeeHistoryRepository.findAll();
@@ -25,19 +28,25 @@ public class EmployeeHistoryService {
     }
 
     public EmployeeHistoryDTO getParticularEmployeeHistory(Long id) {
-        EmployeeHistoryEntity employeeHistoryEntity = employeeHistoryRepository.findById(id).get();
+        EmployeeHistoryEntity employeeHistoryEntity = finderDAO.getHistoryEntity(id);
         return EmployeeMapper.mapToEmployeeHistoryDTO(employeeHistoryEntity);
     }
 
     public EmployeeHistoryStatsDTO getStatistics(String date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date dateFrom = formatter.parse(date);
+        Date dateFrom;
+        try {
+            dateFrom = formatter.parse(date);
+        } catch (ParseException e) {
+            throw new ResourceNotFoundException(e.getMessage());
+        }
         Integer numberOfEmployees = employeeHistoryRepository.findEmployeesCount(dateFrom);
         return new EmployeeHistoryStatsDTO(numberOfEmployees);
     }
 
     public void deleteEmployeeHistory(Long id) {
-        employeeHistoryRepository.deleteById(id);
+        EmployeeHistoryEntity employeeHistoryEntity = finderDAO.getHistoryEntity(id);
+        employeeHistoryRepository.delete(employeeHistoryEntity);
     }
 
     private List<EmployeeHistoryDTO> mapToDTOList(List<EmployeeHistoryEntity> employeeEntityList) {

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class JWTUtils {
+public class JWTService {
     private String secret = "hass";
     private int expireTime = 360000;
 

@@ -1,15 +1,15 @@
 package com.paw.hrmApp.service;
 
+import com.paw.hrmApp.dao.FinderDAO;
 import com.paw.hrmApp.dto.DepartmentCreateDTO;
 import com.paw.hrmApp.dto.DepartmentDTO;
 import com.paw.hrmApp.dto.DepartmentStatsDTO;
+import com.paw.hrmApp.exception.ResourceNotFoundException;
 import com.paw.hrmApp.mapper.DepartmentMapper;
 import com.paw.hrmApp.model.DepartmentEntity;
 import com.paw.hrmApp.model.EmployeeEntity;
 import com.paw.hrmApp.model.LocationEntity;
 import com.paw.hrmApp.repository.DepartmentRepository;
-import com.paw.hrmApp.repository.EmployeeRepository;
-import com.paw.hrmApp.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DepartmentService {
     private final DepartmentRepository departmentRepository;
-    private final EmployeeRepository employeeRepository;
-    private final LocationRepository locationRepository;
+    private final FinderDAO finderDAO;
 
     public List<DepartmentDTO> getDepartments() {
         List<DepartmentEntity> departmentEntityList = departmentRepository.findAll();
@@ -30,13 +29,13 @@ public class DepartmentService {
     }
 
     public DepartmentDTO getParticularDepartment(Long id) {
-        DepartmentEntity departmentEntity = departmentRepository.findById(id).get();
+        DepartmentEntity departmentEntity = finderDAO.getDepartmentEntity(id);
         return DepartmentMapper.mapToDepartmentDTO(departmentEntity);
     }
 
     public void editDepartment(DepartmentDTO departmentDTO) {
         Long id = departmentDTO.getDepartmentId();
-        DepartmentEntity departmentEntity = departmentRepository.findById(id).get();
+        DepartmentEntity departmentEntity = finderDAO.getDepartmentEntity(id);
         setDetailedInfo(departmentEntity, departmentDTO.getDepartmentName(), departmentDTO.getManagerId(), departmentDTO.getLocationId());
         departmentRepository.save(departmentEntity);
     }
@@ -48,7 +47,8 @@ public class DepartmentService {
     }
 
     public void deleteDepartment(Long id) {
-        departmentRepository.deleteById(id);
+        DepartmentEntity departmentEntity = finderDAO.getDepartmentEntity(id);
+        departmentRepository.delete(departmentEntity);
     }
 
     public DepartmentStatsDTO getStatistics() {
@@ -66,8 +66,22 @@ public class DepartmentService {
     }
 
     private void setDetailedInfo(DepartmentEntity departmentEntity, String name, Long managerId, Long locationId) {
-        EmployeeEntity managerEntity = employeeRepository.findById(managerId).get();
-        LocationEntity locationEntity = locationRepository.findById(locationId).get();
+        List<String> errors = new ArrayList<>();
+        EmployeeEntity managerEntity = new EmployeeEntity();
+        LocationEntity locationEntity = new LocationEntity();
+        try {
+            managerEntity = finderDAO.getEmployeeEntity(managerId);
+        } catch (ResourceNotFoundException e) {
+            errors.add(e.getMessage());
+        }
+        try {
+            locationEntity = finderDAO.getLocationEntity(locationId);
+        } catch (ResourceNotFoundException e) {
+            errors.add(e.getMessage());
+        }
+        if (!errors.isEmpty())
+            throw new ResourceNotFoundException(errors);
+
         DepartmentMapper.mapToDepartmentEntity(departmentEntity, name, managerEntity, locationEntity);
     }
 }

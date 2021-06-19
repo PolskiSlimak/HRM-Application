@@ -1,5 +1,6 @@
 package com.paw.hrmApp.service;
 
+import com.paw.hrmApp.dao.FinderDAO;
 import com.paw.hrmApp.dto.LocationCreateDTO;
 import com.paw.hrmApp.dto.LocationDTO;
 import com.paw.hrmApp.dto.LocationStatsDTO;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LocationService {
     private final LocationRepository locationRepository;
+    private final FinderDAO finderDAO;
 
     public List<LocationDTO> getLocations() {
         List<LocationEntity> locationEntityList = locationRepository.findAll();
@@ -25,13 +27,13 @@ public class LocationService {
     }
 
     public LocationDTO getParticularLocation(Long id) {
-        LocationEntity locationEntity = locationRepository.findById(id).get();
+        LocationEntity locationEntity = finderDAO.getLocationEntity(id);
         return LocationMapper.mapToLocationDTO(locationEntity);
     }
 
     public void editLocation(LocationDTO locationDTO) {
         Long id = locationDTO.getLocationId();
-        LocationEntity locationEntity = locationRepository.findById(id).get();
+        LocationEntity locationEntity = finderDAO.getLocationEntity(id);
         HashMap<String, String> details = new HashMap<>();
         details.put("countryName", locationDTO.getCountryName());
         details.put("streetAddress", locationDTO.getStreetAddress());
@@ -58,7 +60,8 @@ public class LocationService {
     }
 
     public void deleteLocation(Long id) {
-        locationRepository.findById(id);
+        LocationEntity locationEntity = finderDAO.getLocationEntity(id);
+        locationRepository.delete(locationEntity);
     }
 
     private List<LocationDTO> mapToDTOList(List<LocationEntity> locationEntityList) {
