@@ -38,13 +38,13 @@ public class JobController {
     }
 
     @ApiOperation(value = "Edit particular job")
-    @PostMapping("/jobs")
+    @PutMapping("/jobs")
     private void editJob(@RequestBody JobDTO jobDTO) {
         jobService.editJob(jobDTO);
     }
 
     @ApiOperation(value = "Create new job")
-    @PutMapping("/jobs")
+    @PostMapping("/jobs")
     private void createJob(@RequestBody JobCreateDTO jobDTO) {
         jobService.createJob(jobDTO);
     }

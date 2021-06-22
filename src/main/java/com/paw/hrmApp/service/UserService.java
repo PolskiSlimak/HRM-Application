@@ -56,7 +56,7 @@ public class UserService {
     }
 
 
-    public UserEntity getUserByUsername(String username) {
+    private UserEntity getUserByUsername(String username) {
         return userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Cannot find user"));
     }
 }

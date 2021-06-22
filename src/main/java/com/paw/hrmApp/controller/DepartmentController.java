@@ -38,13 +38,13 @@ public class DepartmentController {
     }
 
     @ApiOperation(value = "Edit specific department")
-    @PostMapping("/departments")
+    @PutMapping("/departments")
     private void editDepartment(@RequestBody DepartmentDTO departmentDTO) {
         departmentService.editDepartment(departmentDTO);
     }
 
     @ApiOperation(value = "Creates department")
-    @PutMapping("/departments")
+    @PostMapping("/departments")
     private void createDepartment(@RequestBody DepartmentCreateDTO departmentDTO) {
         departmentService.createDepartment(departmentDTO);
     }

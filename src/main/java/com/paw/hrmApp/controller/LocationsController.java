@@ -38,13 +38,13 @@ public class LocationsController {
     }
 
     @ApiOperation(value = "Edit location")
-    @PostMapping("/locations")
+    @PutMapping("/locations")
     private void editLocation(@RequestBody LocationDTO locationDTO) {
         locationService.editLocation(locationDTO);
     }
 
     @ApiOperation(value = "Create location")
-    @PutMapping("/locations")
+    @PostMapping("/locations")
     private void createLocation(@RequestBody LocationCreateDTO locationDTO) {
         locationService.createLocation(locationDTO);
     }
