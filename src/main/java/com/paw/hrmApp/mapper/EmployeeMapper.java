@@ -1,9 +1,9 @@
 package com.paw.hrmApp.mapper;
 
-import com.paw.hrmApp.dto.EmployeeCreateDTO;
+import com.paw.hrmApp.dto.create.EmployeeCreateDTO;
 import com.paw.hrmApp.dto.EmployeeDTO;
 import com.paw.hrmApp.dto.EmployeeHistoryDTO;
-import com.paw.hrmApp.dto.EmployeeStatsDTO;
+import com.paw.hrmApp.dto.create.EmployeeStatsDTO;
 import com.paw.hrmApp.model.EmployeeEntity;
 import com.paw.hrmApp.model.EmployeeHistoryEntity;
 

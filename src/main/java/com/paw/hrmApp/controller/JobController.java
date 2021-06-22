@@ -3,7 +3,7 @@ package com.paw.hrmApp.controller;
 import com.paw.hrmApp.configuration.SpringFoxConfig;
 import com.paw.hrmApp.dto.JobCreateDTO;
 import com.paw.hrmApp.dto.JobDTO;
-import com.paw.hrmApp.dto.JobStatsDTO;
+import com.paw.hrmApp.dto.stats.JobStatsDTO;
 import com.paw.hrmApp.service.JobService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

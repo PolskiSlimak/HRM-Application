@@ -1,9 +1,9 @@
 package com.paw.hrmApp.controller;
 
 import com.paw.hrmApp.configuration.SpringFoxConfig;
-import com.paw.hrmApp.dto.EmployeeCreateDTO;
+import com.paw.hrmApp.dto.create.EmployeeCreateDTO;
 import com.paw.hrmApp.dto.EmployeeDTO;
-import com.paw.hrmApp.dto.EmployeeStatsDTO;
+import com.paw.hrmApp.dto.create.EmployeeStatsDTO;
 import com.paw.hrmApp.service.EmployeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

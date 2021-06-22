@@ -3,7 +3,7 @@ package com.paw.hrmApp.service;
 import com.paw.hrmApp.dao.FinderDAO;
 import com.paw.hrmApp.dto.JobCreateDTO;
 import com.paw.hrmApp.dto.JobDTO;
-import com.paw.hrmApp.dto.JobStatsDTO;
+import com.paw.hrmApp.dto.stats.JobStatsDTO;
 import com.paw.hrmApp.mapper.JobMapper;
 import com.paw.hrmApp.model.JobEntity;
 import com.paw.hrmApp.repository.JobRepository;

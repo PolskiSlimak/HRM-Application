@@ -1,7 +1,7 @@
 package com.paw.hrmApp.mapper;
 
 import com.paw.hrmApp.dto.DepartmentDTO;
-import com.paw.hrmApp.dto.DepartmentStatsDTO;
+import com.paw.hrmApp.dto.stats.DepartmentStatsDTO;
 import com.paw.hrmApp.model.DepartmentEntity;
 import com.paw.hrmApp.model.EmployeeEntity;
 import com.paw.hrmApp.model.LocationEntity;

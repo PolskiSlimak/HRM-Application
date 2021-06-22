@@ -2,7 +2,7 @@ package com.paw.hrmApp.controller;
 
 import com.paw.hrmApp.configuration.SpringFoxConfig;
 import com.paw.hrmApp.dto.EmployeeHistoryDTO;
-import com.paw.hrmApp.dto.EmployeeHistoryStatsDTO;
+import com.paw.hrmApp.dto.stats.EmployeeHistoryStatsDTO;
 import com.paw.hrmApp.service.EmployeeHistoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

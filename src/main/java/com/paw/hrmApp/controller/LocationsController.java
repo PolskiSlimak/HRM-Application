@@ -1,9 +1,9 @@
 package com.paw.hrmApp.controller;
 
 import com.paw.hrmApp.configuration.SpringFoxConfig;
-import com.paw.hrmApp.dto.LocationCreateDTO;
+import com.paw.hrmApp.dto.create.LocationCreateDTO;
 import com.paw.hrmApp.dto.LocationDTO;
-import com.paw.hrmApp.dto.LocationStatsDTO;
+import com.paw.hrmApp.dto.stats.LocationStatsDTO;
 import com.paw.hrmApp.service.LocationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,9 +1,9 @@
 package com.paw.hrmApp.service;
 
 import com.paw.hrmApp.dao.FinderDAO;
-import com.paw.hrmApp.dto.EmployeeCreateDTO;
+import com.paw.hrmApp.dto.create.EmployeeCreateDTO;
 import com.paw.hrmApp.dto.EmployeeDTO;
-import com.paw.hrmApp.dto.EmployeeStatsDTO;
+import com.paw.hrmApp.dto.create.EmployeeStatsDTO;
 import com.paw.hrmApp.exception.ResourceNotFoundException;
 import com.paw.hrmApp.mapper.EmployeeMapper;
 import com.paw.hrmApp.model.DepartmentEntity;

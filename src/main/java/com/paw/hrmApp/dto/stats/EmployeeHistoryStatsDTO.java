@@ -1,4 +1,4 @@
-package com.paw.hrmApp.dto;
+package com.paw.hrmApp.dto.stats;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package com.paw.hrmApp.mapper;
 
 import com.paw.hrmApp.dto.JobDTO;
-import com.paw.hrmApp.dto.JobStatsDTO;
+import com.paw.hrmApp.dto.stats.JobStatsDTO;
 import com.paw.hrmApp.model.JobEntity;
 
 import java.math.BigDecimal;

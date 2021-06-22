@@ -1,7 +1,7 @@
 package com.paw.hrmApp.mapper;
 
 import com.paw.hrmApp.dto.LocationDTO;
-import com.paw.hrmApp.dto.LocationStatsDTO;
+import com.paw.hrmApp.dto.stats.LocationStatsDTO;
 import com.paw.hrmApp.model.LocationEntity;
 
 import java.util.ArrayList;
